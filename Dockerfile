@@ -9,7 +9,6 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 COPY scripts/*.sh /tmp/
 RUN bash /tmp/non-root-user.sh "${USERNAME}" "${USER_UID}" "${USER_GID}" && rm /tmp/non-root-user.sh 
-RUN bash /tmp/aws-creds.sh && rm /tmp/aws-creds.sh 
 
 # Terraform version
 ARG TERRAFORM_VERSION=1.1.8
@@ -44,6 +43,17 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
     && sudo ./aws/install \
     && rm -rf ./aws/ \
     && rm ./awscliv2.zip
+
+# Install Kubectl
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+    && curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256" \
+    && echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check \
+    && sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+# Install Helm
+RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 \
+    && chmod 700 get_helm.sh \
+    && ./get_helm.sh
 
 # Install Terraform
 RUN mkdir -p /tmp/dc-downloads \
