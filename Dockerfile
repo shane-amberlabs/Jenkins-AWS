@@ -8,7 +8,8 @@ ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 COPY scripts/*.sh /tmp/
-RUN bash /tmp/non-root-user.sh "${USERNAME}" "${USER_UID}" "${USER_GID}" && rm /tmp/non-root-user.sh
+RUN bash /tmp/non-root-user.sh "${USERNAME}" "${USER_UID}" "${USER_GID}" && rm /tmp/non-root-user.sh 
+RUN bash /tmp/aws-creds.sh && rm /tmp/aws-creds.sh 
 
 # Terraform version
 ARG TERRAFORM_VERSION=1.1.8
@@ -64,4 +65,4 @@ RUN echo "export HISTFILE=/home/$USERNAME/commandhistory/.bash_history" >> "/hom
      && chown -R $USERNAME /home/$USERNAME/commandhistory
      
 # Switch back to dialog for any ad-hoc use of apt-get
-ENV DEBIAN_FRONTEND=dialog
+ENV DEBIAN_FRONTEND=dialog 
