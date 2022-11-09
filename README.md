@@ -62,5 +62,5 @@ AWS Credentials:
 4. Get the password:
     - `docker exec jenkins-blueocean cat /var/jenkins_home/secrets/initialAdminPassword`
 
-5. Connect to Kenkins:
+5. Connect to Jenkins:
     - `http://localhost:8080/`
