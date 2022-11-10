@@ -64,3 +64,8 @@ AWS Credentials:
 
 5. Connect to Jenkins:
     - `http://localhost:8080/`
+
+
+## Notes*
+The clock within the devcontainer can get out of sync and cause issues when deploying to AWS. 
+To realign the time with the Windows machine, run: `hwclock -s`
