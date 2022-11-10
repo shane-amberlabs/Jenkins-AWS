@@ -35,7 +35,7 @@ resource "aws_subnet" "private_1" {
   tags = {
     Name                        = "private-${var.region}a"
     "kubernetes.io/cluster/eks" = "shared" # Required for EKS. Allows EKS cluster to discover this subnet
-    "kubernetes.io/role/elb"    = 1        # Required for EKS. Allows EKS to deploy provate ELB's
+    "kubernetes.io/role/internal-elb" = 1        # Required for EKS. Allows EKS to deploy private ELB's
   }
 }
 
@@ -48,6 +48,6 @@ resource "aws_subnet" "private_2" {
   tags = {
     Name                        = "private-${var.region}b"
     "kubernetes.io/cluster/eks" = "shared" # Required for EKS. Allows EKS cluster to discover this subnet
-    "kubernetes.io/role/elb"    = 1        # Required for EKS. Allows EKS to deploy provate ELB's
+    "kubernetes.io/role/internal-elb" = 1        # Required for EKS. Allows EKS to deploy provate ELB's
   }
 }

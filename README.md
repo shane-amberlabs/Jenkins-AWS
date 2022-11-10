@@ -32,7 +32,7 @@ AWS Credentials:
     - `aws dynamodb create-table --table-name <<NAME>> --attribute-definitions AttributeName=LockID,AttributeType=S --key-schema AttributeName=LockID,KeyType=HASH --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 --region <<REGION>>`
 
 
-### The block below will configure Terraform to use the S3 to store the statefile. 
+### The block below will configure Terraform to use the S3 to store the statefile, add it to the 'provider.tf' file
 
 `terraform {`
   `backend "s3" {`
@@ -43,6 +43,47 @@ AWS Credentials:
     `region = <<REGION>>`
   `}`
 `}`
+
+## AWS Infrastructure
+
+**The Terraform folder contains files that will build all the required resources for a Kubernetes cluster.**
+- VPC (Virtual Private Cloud)
+- Subnets
+    - 2 x Private
+    - 2 x Public
+- Internet Gateway
+- 2 x NAT Gateways
+- 3 x Routing tables
+    4 x Route Table Associations
+- 2 x Elastic IPs
+- EKS (Elastic Kubernetes Service) Cluster
+    - EKS Role, Policy and Policy Attachment 
+- EKS (Elastic Kubernetes Service) Node Group
+    - Role, Policy and Policy Attachment 
+
+**The steps to connect to the EKS service once its deployed are:**
+
+- Add the user contect to kubectl
+    - `aws eks --region <<REGION>> update-kubeconfig --name <<EKS_NAME>>` This should be ran with the profile that created the EKS service.
+
+- Access EKS service
+    - `kubectl get svc`
+
+**There is a basic app example at `/workspaces/Jenkins-AWS/k8s/app.yaml`. The steps to deploy this as a test are:**
+
+- Create the pods and start the service:
+    - `kubectl apply -f /workspaces/Jenkins-AWS/k8s/app.yaml`
+
+- View the pods that were started:
+    - `kubectl get pods`
+
+- View the services:
+    - `kubectl get svc`
+
+- View additional details about the service:
+    - `kubectl describe svc <<NAME_OF_SERVICE>>`
+
+- You can retrive the IP of the service (if it doesnt appear using the above commands) through the console and navigating to the Load Balancer.
 
 ## Jenkins
 
