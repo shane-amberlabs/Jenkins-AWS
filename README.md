@@ -108,5 +108,5 @@ AWS Credentials:
 
 
 ## Notes*
-The clock within the devcontainer can get out of sync and cause issues when deploying to AWS. 
+The clock within the devcontainer can get out of sync and cause issues
 To realign the time with the Windows machine, run: `hwclock -s`
